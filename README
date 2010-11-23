@@ -1,0 +1,95 @@
+=== WPIMEX - WordPress Import Export ===
+Contributors: jonasbjork <jonas.bjork@aller.se>
+Donate link: http://aller.se/
+Tags: import, export, core, system
+Requires at least: 3.0
+Tested up to: 3.0.1
+Stable tag: none
+
+WordPress Import Export is a command line (CLI) tool for exporting and importing WordPress data. This tool has been written for use with Aller Internet/Aller media server environment. Now we publish the tool as open source software under the GPL license.
+
+== Description ==
+WordPress Import Export is a command line (CLI) tool for exporting and importing WordPress data. At the moment WPIMEX can export data (posts with comments, categories and tags) from WordPress 2.x and 3.x and import the posts to WP 3.x . WPIMEX has also been used for importing data from Lemooon CMS, Incentive and EPIserver exports. Those functions is not included in our open source code, and will not be - due to licensing issues with respective owners.
+
+WPIMEX has its own XML-format called WPIMEXML. This format has been developed by Aller Internet and is easiest possible for getting all the data for a post/page in WordPress and its dependicies such as comments, categories and tags. This format is not yet documented.
+
+Each blog/site you work with shall have an own configuration file with the filename: YOUR_BLOGNAME_HERE.conf, contents shall be:
+
+SWITCH_TO_BLOG=1
+XML_BLOG_DUMP=my-exported-blog.xml
+
+SWITCH_TO_BLOG defines what ID the blog you want to import to have. This ID can be found in wp-admin or in database table wp_blogs .
+XML_BLOG_DUMP defines the filename of the exported data file (WPIMEXML format).
+
+import.php has hard-coded paths you must change, this will be extacted to the conf-file as time pass by.
+
+* WPIMEX_DIR defines path to your WordPress installation, this is where your wp-load.php file is located, used for bootstrapping WordPress and get the connection for database.
+
+== conf file ==
+
+The configuration file should be named filename.conf and contains a list of configuration name and values in the following format:
+CONFIG_NAME=CONFIG_VALUE<newline>
+
+Each line must be terminated by a newline. A line in configuration file starting with a hash sign (#) is considered as a comment and will not be parsed by WPIMEX::loadconf() .
+
+* MAIN_BLOG=www.example.com
+  Specifies what name you gave your first blog in WordPress. Needed for bootstrapping WordPress.
+* SWITCH_TO_BLOG=1
+  Specifies what blog_id you want to use in your operation.
+* XML_BLOG_DUMP=filename.xml
+  Specified which WPIMEXML-file you want to import.
+
+= Export related configuration =
+
+* EX_DBHOST=127.0.0.1
+  Specify the IP-adress to your MySQL server for export.
+* EX_DBUSER=root
+  Specify the MySQL user to use while exporting.
+* EX_DBPASS=mySecretPass
+  Specify the MySQL password for exporting.
+* EX_DBBASE=wordpress
+  Specify the MySQL database for exporting.
+* EX_BLOG_PREFIX=wp_
+  Specify the database table prefix for the blog to export.
+
+== Importing data ==
+Importing data is done with the php script: import.php . Import need a conf file, see above for format.
+
+Syntax: import.php [filename.conf]
+
+
+== Problems / known issues ==
+
+Problems with WPIMEX is URL:s in posts/pages. This is not a WPIMEX issue really, but the way WordPress works. This means that you have to manually update URL:s in posts after an import. Also, no images attached to posts/pages will be exported/imported. Just copy wp-content/uploads or wp-content/blogs.dir folders to get images too.
+
+Memory exhausted. When working with a lot of data PHP will run out of memory. Look for memory_limit in your php.ini (note that you might have a php.ini for Apache/Nginx and another for CLI, check with your Linux distribution for help). Change memory_limit according to:
+
+memory_limit = 512M
+
+== Installation == 
+There is no need for installation, you use the tool from command line interface (CLI). WPIMEX has some dependencies, such as:
+
+* simplexml
+
+== Frequently Asked Questions ==
+
+= There has not been any questions for WPIMEX yet. =
+
+So we can't answer that question either.
+
+== License ==
+
+This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+

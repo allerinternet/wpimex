@@ -1,0 +1,80 @@
+
+WPIMEX - WordPress Import Export
+This file specifies the methods in WPIMEX class.
+
+
+= WPIMEX::logger($message, $type = LOG_INFO, $destination = null, $function = null) =
+
+The logger for WPIMEX. You can use different log types, such as LOG_INFO, LOG_WARN, LOG_ERR, LOG_DEBUG and LOG_NOTICE . When you want to use what level is up to you. We made it possible to log different severity levels.
+
+$message is the message you want to log.
+
+$type is the log type, defaults to LOG_INFO
+
+$destination is not implemented yet. We want to make logger able to log to stdio (works now), file and database in the future.
+
+$function is a reference holder. Logger can output in what function/method the log entry happened.
+
+Example:
+WPIMEX::logger("Testing logger", LOG_WARN, null, __METHOD__);
+
+= WPIMEX::get_user_by_mail(&$mail) =
+
+Get a user ID from an email address. You give the mailadress and get user ID back. If no user is found, null will be returned.
+
+Example:
+WPIMEX::get_user_by_mail("jonas.bjork@aller.se");
+
+= WPIMEX::insert_user(&$userdata) =
+
+Create a user from $userdata array. See http://codex.wordpress.org/Function_Reference/wp_insert_user for array format.
+
+= WPIMEX::create_category($category) =
+
+Create a category from $category array. See http://codex.wordpress.org/Function_Reference/wp_insert_term for array format.
+
+= WPIMEX::create_comment(&$c) =
+
+Create a comment associated with a post. See http://codex.wordpress.org/Function_Reference/wp_insert_comment for array format.
+
+= WPIMEX::db_check_table($table) =
+
+Check if a table exists in database. $table is the table name to check for. Returns true/false depending on if table exists or not.
+
+= WPIMEX::db_replace($ra) =
+
+[BETA] Replaces text/values in a table field. THIS IS NOT TESTED FULLY YET. USE ON OWN RISK.
+
+$ra is a array( 'table' => '', 'field' => '', 'find' => '', 'replace' => '')
+
+Returns true/false.
+
+= WPIMEX::get_blog($blog) =
+
+Get a blog id from ID or blog name. $blog should be an int or a string. Returns the ID for the blog.
+
+= WPIMEX::cleanup($blog) =
+
+Deletes all imported posts/pages from a blog. This method uses postmeta "_wpimex_import" to find posts/pages. This post meta is added from import.php script.
+
+= WPIMEX::susclean() =
+
+This method deletes ALL POSTS, but NO PAGES from the blog. Function was asked by Susanne Berg at Aller Internet, thou the name susclean().
+
+= WPIMEX::loadconf($conf_file) =
+
+Loads the configuration file specified in $conf_file and returns an array with configuration keys - values. See README for conf file format.
+
+= WPIMEX::polls_export() =
+
+[BETA] This method will be able to export WP_Polls in WPIMEXML format some day. Not this day, thou.
+
+= WPIMEX::update_posts() =
+
+Updates all posts in a blog. Kind of "touch" for posts. Some times needed after importing and manipulating blog data.
+
+= WPIMEX::get_nginx_conf($ip, $port, $root, $errorlog, $location, $location_root, $includes) =
+
+[Beta] This method creates a Nginx configuration file from your current WordPress installation.
+
+
