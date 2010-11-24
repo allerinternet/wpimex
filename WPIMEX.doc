@@ -29,6 +29,10 @@ WPIMEX::get_user_by_mail("jonas.bjork@aller.se");
 
 Create a user from $userdata array. See http://codex.wordpress.org/Function_Reference/wp_insert_user for array format.
 
+= WPIMEX::exist_category($category) =
+
+Check if a category exists. Give category to method, ie "Pictures" and method returns term id as integer if found.
+
 = WPIMEX::create_category($category) =
 
 Create a category from $category array. See http://codex.wordpress.org/Function_Reference/wp_insert_term for array format.

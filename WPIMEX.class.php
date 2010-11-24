@@ -59,18 +59,30 @@ class WPIMEX {
 	return wp_insert_user($userdata);
   }
 
+  public static function exist_category($category) {
+    global $wpdb;
+    $sql = sprintf("SELECT term_id FROM %s WHERE name='%s' LIMIT 1", $wpdb->terms, $category);
+    $res = $wpdb->get_row($sql);
+    return $res->term_id;
+  }
+
   public static function create_category($category) {
-	$ic = wp_insert_term($category, 'category');
-	//var_dump($ic);
-	if ($ic->error_data) {
-		$c = $ic->error_data['term_exists'];
-		self::logger("Term $category exists!", LOG_WARN, null, __METHOD__);
-	} else {
-		$c = $ic['term_id'];
-		$tmp = "Term $category (id=$c) created"; 
-		self::logger($tmp, LOG_INFO, null, __METHOD__);
-	}
-	return $c;
+    global $wpdb;
+
+    $c = self::exist_category($category);
+    
+    if (!$c) {
+      $ic = wp_insert_term($category, 'category');
+      if ($ic->error_data) {
+        $c = $ic->error_data['term_exists'];
+          self::logger("Term $category exists!", LOG_WARN, null, __METHOD__);
+      } else {
+        $c = $ic['term_id'];
+        $tmp = "Term $category (id=$c) created"; 
+        self::logger($tmp, LOG_INFO, null, __METHOD__);
+      }
+    }
+    return $c;
   }
 
   public static function create_comment(&$c) {
